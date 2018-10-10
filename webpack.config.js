@@ -60,7 +60,6 @@ const config = {
           {
             loader:  'css-loader',
             options: {
-              minimize:  isProduction,
               sourceMap: !isProduction
             }
           },
