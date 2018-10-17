@@ -64,28 +64,38 @@ view model =
                     [ class "columns" ]
                     [ div
                         [ class "column is-half is-offset-one-quarter" ]
-                        [ div
-                            [ class "box" ]
-                            [ h2
-                                [ class "title is-4 has-text-grey" ]
-                                [ text "Log in" ]
-                            , form
-                                []
-                                [ viewEmailInput model
-                                , viewPasswordInput model
-                                , submitButton
-                                ]
-                            ]
-                        , p
-                            []
-                            [ a
-                                [ href "#/passwords/new" ]
-                                [ text "Forgot password?" ]
-                            ]
+                        [ loginBox model
+                        , loginLinks
                         ]
                     ]
                 ]
             ]
+        ]
+
+
+loginBox : Model -> Html Msg
+loginBox model =
+    div
+        [ class "box" ]
+        [ h2
+            [ class "title is-4 has-text-grey" ]
+            [ text "Log in" ]
+        , form
+            []
+            [ viewEmailInput model
+            , viewPasswordInput model
+            , submitButton
+            ]
+        ]
+
+
+loginLinks : Html Msg
+loginLinks =
+    p
+        []
+        [ a
+            [ href "#/passwords/new" ]
+            [ text "Forgot password?" ]
         ]
 
 
