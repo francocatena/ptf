@@ -52,53 +52,6 @@ update msg model =
 -- VIEW
 
 
-view : Model -> Html Msg
-view model =
-    section
-        [ class "hero is-light is-fullheight" ]
-        [ div
-            [ class "hero-body" ]
-            [ div
-                [ class "container has-text-centered" ]
-                [ div
-                    [ class "columns" ]
-                    [ div
-                        [ class "column is-half is-offset-one-quarter" ]
-                        [ loginBox model
-                        , loginLinks
-                        ]
-                    ]
-                ]
-            ]
-        ]
-
-
-loginBox : Model -> Html Msg
-loginBox model =
-    div
-        [ class "box" ]
-        [ h2
-            [ class "title is-4 has-text-grey" ]
-            [ text "Log in" ]
-        , form
-            []
-            [ viewEmailInput model
-            , viewPasswordInput model
-            , submitButton
-            ]
-        ]
-
-
-loginLinks : Html Msg
-loginLinks =
-    p
-        []
-        [ a
-            [ href "#/passwords/new" ]
-            [ text "Forgot password?" ]
-        ]
-
-
 viewField : Html msg -> Html msg
 viewField field =
     div [ class "field" ] [ field ]
@@ -114,53 +67,96 @@ viewIcon iconClasses =
         ]
 
 
-viewEmailInput : Model -> Html Msg
-viewEmailInput model =
-    viewField
-        (div
-            [ class "control has-icons-left" ]
-            [ input
-                [ class "input is-medium"
-                , type_ "email"
-                , name "email"
-                , value model.email
-                , autocomplete False
-                , placeholder "Email"
-                , autofocus True
-                , onInput Email
+view : Model -> Html Msg
+view model =
+    let
+        viewEmailInput : Html Msg
+        viewEmailInput =
+            viewField
+                (div
+                    [ class "control has-icons-left" ]
+                    [ input
+                        [ class "input is-medium"
+                        , type_ "email"
+                        , name "email"
+                        , value model.email
+                        , autocomplete False
+                        , placeholder "Email"
+                        , autofocus True
+                        , onInput Email
+                        ]
+                        []
+                    , viewIcon "fas fa-envelope"
+                    ]
+                )
+
+        viewPasswordInput : Html Msg
+        viewPasswordInput =
+            viewField
+                (div
+                    [ class "control has-icons-left" ]
+                    [ input
+                        [ class "input is-medium"
+                        , type_ "password"
+                        , name "password"
+                        , value model.password
+                        , placeholder "Password"
+                        , onInput Password
+                        ]
+                        []
+                    , viewIcon "fas fa-lock"
+                    ]
+                )
+
+        viewSubmitButton : Html Msg
+        viewSubmitButton =
+            viewField
+                (p
+                    [ class "control has-text-centered" ]
+                    [ button
+                        [ class "button is-dark is-medium", type_ "button" ]
+                        [ text "Login" ]
+                    ]
+                )
+
+        viewLoginBox : Html Msg
+        viewLoginBox =
+            div
+                [ class "box" ]
+                [ h2
+                    [ class "title is-4 has-text-grey" ]
+                    [ text "Log in" ]
+                , form
+                    []
+                    [ viewEmailInput
+                    , viewPasswordInput
+                    , viewSubmitButton
+                    ]
                 ]
+
+        viewLoginLinks : Html Msg
+        viewLoginLinks =
+            p
                 []
-            , viewIcon "fas fa-envelope"
-            ]
-        )
-
-
-viewPasswordInput : Model -> Html Msg
-viewPasswordInput model =
-    viewField
-        (div
-            [ class "control has-icons-left" ]
-            [ input
-                [ class "input is-medium"
-                , type_ "password"
-                , name "password"
-                , value model.password
-                , placeholder "Password"
-                , onInput Password
+                [ a
+                    [ href "#/passwords/new" ]
+                    [ text "Forgot password?" ]
                 ]
-                []
-            , viewIcon "fas fa-lock"
+    in
+    section
+        [ class "hero is-light is-fullheight" ]
+        [ div
+            [ class "hero-body" ]
+            [ div
+                [ class "container has-text-centered" ]
+                [ div
+                    [ class "columns" ]
+                    [ div
+                        [ class "column is-half is-offset-one-quarter" ]
+                        [ viewLoginBox
+                        , viewLoginLinks
+                        ]
+                    ]
+                ]
             ]
-        )
-
-
-submitButton : Html Msg
-submitButton =
-    viewField
-        (p
-            [ class "control has-text-centered" ]
-            [ button
-                [ class "button is-dark is-medium", type_ "button" ]
-                [ text "Login" ]
-            ]
-        )
+        ]
